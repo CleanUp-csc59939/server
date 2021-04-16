@@ -13,5 +13,6 @@ sequelize
   });
 
 console.log('Testing');
+console.log('Testing again');
 
 module.exports = sequelize;
