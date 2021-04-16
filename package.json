@@ -4,7 +4,8 @@
     "server": "nodemon src/server",
     "format": "prettier --write src",
     "lint": "eslint src --ext .js",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "husky install"
   },
   "prettier": {
     "printWidth": 120,
@@ -15,8 +16,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run type-check"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {

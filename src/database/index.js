@@ -12,6 +12,6 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 
-
+console.log("Testing")
 
 module.exports = sequelize;
