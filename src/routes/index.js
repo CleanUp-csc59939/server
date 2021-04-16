@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 
 const router = new express.Router();
 
 // just to make sure routes are connected
-router.use("/welcome", (req, res) => {
+router.use('/welcome', (req, res) => {
   console.log(req);
-  res.status(200).send("hello world");
+  res.status(200).send('hello world');
 });
 
 /**
@@ -14,9 +14,9 @@ router.use("/welcome", (req, res) => {
  * const helloRoutes = require('./hello.js');
  * router.use('/hello', helloRoutes);
  */
-router.use("*", (req, res) => {
+router.use('*', (req, res) => {
   console.log(req);
-  res.status(404).json({ errors: [{ msg: "Unknown API route" }] });
+  res.status(404).json({ errors: [{ msg: 'Unknown API route' }] });
 });
 
 module.exports = router;

@@ -8,10 +8,10 @@ sequelize
   .then(() => {
     console.log('Connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
-});
+  });
 
-console.log("Testing")
+console.log('Testing');
 
 module.exports = sequelize;
