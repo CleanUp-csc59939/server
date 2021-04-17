@@ -2,4 +2,3 @@ node_modules/
 src/config
 
 .DS_Store
-.husky/

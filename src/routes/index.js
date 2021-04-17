@@ -1,4 +1,5 @@
 const express = require('express');
+const userRoutes = require('./user.js');
 
 const router = new express.Router();
 
@@ -14,6 +15,8 @@ router.use('/welcome', (req, res) => {
  * const helloRoutes = require('./hello.js');
  * router.use('/hello', helloRoutes);
  */
+router.use('/user', userRoutes);
+
 router.use('*', (req, res) => {
   console.log(req);
   res.status(404).json({ errors: [{ msg: 'Unknown API route' }] });
