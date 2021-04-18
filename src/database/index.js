@@ -3,6 +3,10 @@ const config = require('../config/config.json');
 
 const sequelize = new Sequelize(config.URI);
 
+const User = require('../models/User')(sequelize, Sequelize);
+
+const db = { User };
+
 sequelize
   .authenticate()
   .then(() => {
@@ -12,7 +16,14 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-console.log('Testing');
-console.log('Testing again');
+Object.keys(db).forEach((name) => {
+  if (db[name].associate) {
+    db[name].associate(db);
+    console.log(db);
+  }
+});
 
-module.exports = sequelize;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

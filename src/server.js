@@ -6,7 +6,7 @@ const app = express();
 
 const server = require('http').createServer(app);
 const routes = require('./routes/index');
-const sequelize = require('./database/index');
+const db = require('./database');
 
 const PORT = process.env.PORT || 8080;
 
@@ -29,10 +29,10 @@ app.use('/api', routes);
  * Switch to true to drop all tables
  * Afterwards switch back to false
  */
-sequelize.sync({ force: false });
+db.sequelize.sync({ force: false });
 
 server.listen(PORT, () => {
-  console.log(` Listening on ${PORT}`);
+  console.log(`Listening on ${PORT}`);
 });
 
 module.exports = app;
