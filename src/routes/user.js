@@ -18,7 +18,7 @@ const router = new express.Router();
 router.post(
   '/register',
   [
-    check('email', 'Erorr with email').isEmail().custom(userMiddleware.doesEmailExist()),
+    check('email', 'Erorr with email').isEmail().custom(userMiddleware.doesEmailExist(false)),
     check('password', 'Password input field required'),
     validatorErrors,
   ],
@@ -30,6 +30,14 @@ router.post(
  * @memberof module:api/users
  * @name POST /login
  */
-router.post('/login', userController.login);
+router.post(
+  '/login',
+  [
+    check('email', 'Erorr with email').isEmail().custom(userMiddleware.doesEmailExist(true)),
+    check('password', 'Password input field required').custom(userMiddleware.checkPassword()),
+    validatorErrors,
+  ],
+  userController.login,
+);
 
 module.exports = router;

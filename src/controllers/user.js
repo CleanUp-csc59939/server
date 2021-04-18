@@ -21,11 +21,20 @@ const register = async (req, res, next) => {
  * @type {RequestHandler}
  */
 const login = (req, res, next) => {
-  try {
-    return res.json();
-  } catch (error) {
-    return next(error);
-  }
+  const payload = {
+    id: req.user.id,
+    email: req.user.email,
+  };
+
+  return userServices
+    .getJwtToken(payload)
+    .then((token) =>
+      res.json({
+        sucess: true,
+        token: `Bearer ${token}`,
+      }),
+    )
+    .catch((err) => next(err));
 };
 
 module.exports = {
