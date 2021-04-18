@@ -18,7 +18,7 @@ const router = new express.Router();
 router.post(
   '/register',
   [
-    check('email', 'Email input field required').isEmail().bail().custom(userMiddleware.doesEmailExist()),
+    check('email', 'Erorr with email').isEmail().custom(userMiddleware.doesEmailExist()),
     check('password', 'Password input field required'),
     validatorErrors,
   ],
