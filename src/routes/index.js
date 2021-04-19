@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./user.js');
+const profileRoutes = require('./profile.js');
 
 const router = new express.Router();
 
@@ -16,6 +17,7 @@ router.use('/welcome', (req, res) => {
  * router.use('/hello', helloRoutes);
  */
 router.use('/user', userRoutes);
+router.use('/profile', profileRoutes);
 
 router.use('*', (req, res) => {
   console.log(req);
