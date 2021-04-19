@@ -1,4 +1,5 @@
 const userServices = require('../services/user.js');
+const profileServices = require('../services/profile.js');
 
 /**
  * @type {RequestHandler}
@@ -11,6 +12,7 @@ const register = async (req, res, next) => {
       password,
     };
     const user = await userServices.createUser(data);
+    await profileServices.createProfile(user.id, email);
     return res.json(user);
   } catch (error) {
     return next(error);
@@ -50,8 +52,18 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await userServices.getAllUsers();
+    return res.json(users);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
   deleteUser,
+  getAllUsers,
 };
