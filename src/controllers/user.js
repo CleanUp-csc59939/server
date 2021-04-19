@@ -37,7 +37,21 @@ const login = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * @type {RequestHandler}
+ */
+const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await userServices.deleteUser(id);
+    return res.sendStatus(204);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
+  deleteUser,
 };
