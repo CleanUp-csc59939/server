@@ -40,4 +40,11 @@ router.post(
   userController.login,
 );
 
+/**
+ * Login user
+ * @memberof module:api/users
+ * @name DELETE /:id
+ */
+router.delete('/:id', [validatorErrors], userController.deleteUser);
+
 module.exports = router;

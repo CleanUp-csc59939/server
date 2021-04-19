@@ -16,12 +16,38 @@ const createUser = async (data) => {
 };
 
 const findUserByEmail = async (email) => {
-  const user = db.User.findOne({ where: { email } });
+  const user = await db.User.findOne({ where: { email } });
   return user;
+};
+
+const emailTaken = async (email) => {
+  const user = await findUserByEmail(email);
+  if (user) {
+    console.log(user);
+    return true;
+  }
+  return false;
+};
+
+const updateEmail = async (email, id) => {
+  await db.User.update(
+    {
+      email,
+    },
+    { where: { id } },
+  );
+};
+
+const deleteUser = async (id) => {
+  const user = await db.User.findOne({ where: { id } });
+  await user.destroy();
 };
 
 module.exports = {
   createUser,
   findUserByEmail,
   getJwtToken,
+  emailTaken,
+  updateEmail,
+  deleteUser,
 };
