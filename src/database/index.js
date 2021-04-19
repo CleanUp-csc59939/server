@@ -4,8 +4,9 @@ const config = require('../config/config.json');
 const sequelize = new Sequelize(config.URI);
 
 const User = require('../models/User')(sequelize, Sequelize);
+const Profile = require('../models/Profile')(sequelize, Sequelize);
 
-const db = { User };
+const db = { User, Profile };
 
 sequelize
   .authenticate()

@@ -13,7 +13,7 @@ const getProfile = async (userID) => {
 const editProfile = async (data, userID) => {
   const profile = await db.Profile.update(
     {
-      ...data
+      ...data,
     },
 
     { returning: true, where: { userID } },

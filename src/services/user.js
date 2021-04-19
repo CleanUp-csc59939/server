@@ -43,6 +43,11 @@ const deleteUser = async (id) => {
   await user.destroy();
 };
 
+const getAllUsers = async () => {
+  const users = await db.User.findAll();
+  return users;
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
@@ -50,4 +55,5 @@ module.exports = {
   emailTaken,
   updateEmail,
   deleteUser,
+  getAllUsers,
 };
