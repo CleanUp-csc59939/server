@@ -11,7 +11,7 @@ const router = new express.Router();
  */
 
 /**
- * Login user
+ * Register user
  * @memberof module:api/users
  * @name POST /register
  */
@@ -41,10 +41,17 @@ router.post(
 );
 
 /**
- * Login user
+ * Delete user
  * @memberof module:api/users
  * @name DELETE /:id
  */
 router.delete('/:id', [validatorErrors], userController.deleteUser);
+
+/**
+ * Get all users
+ * @memberof module:api/users
+ * @name GET /all
+ */
+router.get('/all', [validatorErrors], userController.getAllUsers);
 
 module.exports = router;

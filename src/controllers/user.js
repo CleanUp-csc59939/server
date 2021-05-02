@@ -53,8 +53,18 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await userServices.getAllUsers();
+    return res.json(users);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
   deleteUser,
+  getAllUsers,
 };
