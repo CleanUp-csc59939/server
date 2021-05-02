@@ -1,6 +1,7 @@
 const express = require('express');
 const userRoutes = require('./user.js');
 const profileRoutes = require('./profile.js');
+const eventRoutes = require('./profile.js');
 
 const router = new express.Router();
 
@@ -18,6 +19,7 @@ router.use('/welcome', (req, res) => {
  */
 router.use('/user', userRoutes);
 router.use('/profile', profileRoutes);
+router.use('/event', eventRoutes);
 
 router.use('*', (req, res) => {
   console.log(req);
