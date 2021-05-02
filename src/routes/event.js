@@ -9,4 +9,6 @@ const router = new express.Router();
  */
 router.post('/', [validatorErrors], eventController.addEvent);
 
+router.get('/', [validatorErrors], eventController.allEvents);
+
 module.exports = router;

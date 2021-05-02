@@ -7,6 +7,12 @@ const addEvent = async (data) => {
   return event;
 };
 
+const allEvents = async () => {
+  const events = await db.Event.findAll();
+  return events;
+};
+
 module.exports = {
   addEvent,
+  allEvents,
 };

@@ -11,6 +11,16 @@ const addEvent = async (req, res, next) => {
   }
 };
 
+const allEvents = async (req, res, next) => {
+  try {
+    const events = await eventServices.allEvents;
+    return res.json(events);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
+  allEvents,
 };
