@@ -31,7 +31,33 @@ const editProfile = async (req, res, next) => {
   }
 };
 
+const editImage = async (req, res, next) => {
+  const { file } = req;
+  const { id } = req.params;
+
+  try {
+    const image = Buffer.from(file.buffer).toString('base64');
+    const profile = await profileServices.uploadImage(`data:image/png;base64,${image}`, id);
+    return res.json(profile);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteImage = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const profile = await profileServices.deleteProfileImage(id);
+    return res.json(profile);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getProfile,
   editProfile,
+  editImage,
+  deleteImage,
 };

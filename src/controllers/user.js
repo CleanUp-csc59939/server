@@ -12,7 +12,8 @@ const register = async (req, res, next) => {
       password,
     };
     const user = await userServices.createUser(data);
-    await profileServices.createProfile(user.id, email);
+
+    await profileServices.createProfile(user.id);
     return res.json(user);
   } catch (error) {
     return next(error);
