@@ -13,8 +13,19 @@ const addEvent = async (req, res, next) => {
 
 const allEvents = async (req, res, next) => {
   try {
-    const events = await eventServices.allEvents;
+    const events = await eventServices.allEvents();
     return res.json(events);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getEvent = async (req, res, next) => {
+  const { eventID } = req.params;
+
+  try {
+    const event = await eventServices.getEventByPk(eventID);
+    return res.json(event);
   } catch (error) {
     return next(error);
   }
@@ -23,4 +34,5 @@ const allEvents = async (req, res, next) => {
 module.exports = {
   addEvent,
   allEvents,
+  getEvent,
 };

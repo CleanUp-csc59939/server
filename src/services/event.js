@@ -9,10 +9,17 @@ const addEvent = async (data) => {
 
 const allEvents = async () => {
   const events = await db.Event.findAll();
+  console.log(events);
   return events;
+};
+
+const getEventByPk = async (id) => {
+  const event = await db.Event.findByPk(id);
+  return event;
 };
 
 module.exports = {
   addEvent,
   allEvents,
+  getEventByPk,
 };

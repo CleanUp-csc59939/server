@@ -11,4 +11,6 @@ router.post('/', [validatorErrors], eventController.addEvent);
 
 router.get('/', [validatorErrors], eventController.allEvents);
 
+router.get('/:eventID', [validatorErrors], eventController.getEvent);
+
 module.exports = router;

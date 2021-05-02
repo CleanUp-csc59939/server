@@ -21,7 +21,6 @@ sequelize
 Object.keys(db).forEach((name) => {
   if (db[name].associate) {
     db[name].associate(db);
-    console.log(db);
   }
 });
 
