@@ -5,8 +5,9 @@ const sequelize = new Sequelize(config.URI);
 
 const User = require('../models/User')(sequelize, Sequelize);
 const Profile = require('../models/Profile')(sequelize, Sequelize);
+const Event = require('../models/Event')(sequelize, Sequelize);
 
-const db = { User, Profile };
+const db = { User, Profile, Event };
 
 sequelize
   .authenticate()
@@ -20,7 +21,6 @@ sequelize
 Object.keys(db).forEach((name) => {
   if (db[name].associate) {
     db[name].associate(db);
-    console.log(db);
   }
 });
 
