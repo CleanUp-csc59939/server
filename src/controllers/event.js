@@ -31,8 +31,19 @@ const getEvent = async (req, res, next) => {
   }
 };
 
+const deleteEvent = async (req, res, next) => {
+  const { eventID } = req.params;
+  try {
+    await eventServices.deleteEvent(eventID);
+    return res.sendStatus(204);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
   getEvent,
+  deleteEvent,
 };

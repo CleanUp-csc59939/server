@@ -13,4 +13,6 @@ router.get('/', [validatorErrors], eventController.allEvents);
 
 router.get('/:eventID', [validatorErrors], eventController.getEvent);
 
+router.delete('/:eventID', [validatorErrors], eventController.deleteEvent);
+
 module.exports = router;

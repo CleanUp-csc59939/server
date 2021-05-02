@@ -18,8 +18,14 @@ const getEventByPk = async (id) => {
   return event;
 };
 
+const deleteEvent = async (id) => {
+  const event = await db.Event.findByPk(id);
+  await event.destroy();
+};
+
 module.exports = {
   addEvent,
   allEvents,
   getEventByPk,
+  deleteEvent,
 };
