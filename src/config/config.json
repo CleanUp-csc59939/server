@@ -1,7 +1,8 @@
+
 {
   "production": {
-    "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres"
+      "use_env_variable": "DATABASE_URL",
+      "dialect": "postgres"
   },
   "URI": "postgres://postgres:password@34.69.35.158:5432/cleanup"
 }
