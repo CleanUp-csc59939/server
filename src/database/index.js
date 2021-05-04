@@ -1,7 +1,24 @@
 const Sequelize = require('sequelize');
-const config = require('../config/config.json');
+const config = require('../config/config');
 
-const sequelize = new Sequelize(config.URI);
+const sequelize = new Sequelize(`${config.db_name}`, `${config.username}`, `${config.password}`, {
+  dialect: 'postgres',
+  // e.g. host: '/cloudsql/my-awesome-project:us-central1:my-cloud-sql-instance'
+  host: `/cloudsql/${config.SQLinstance}`,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+  dialectOptions: {
+    // e.g. socketPath: '/cloudsql/my-awesome-project:us-central1:my-cloud-sql-instance'
+    // same as host string above
+    socketPath: `/cloudsql/${config.SQLinstance}`,
+  },
+  logging: false,
+  operatorsAliases: false,
+});
 
 const User = require('../models/User')(sequelize, Sequelize);
 const Profile = require('../models/Profile')(sequelize, Sequelize);
