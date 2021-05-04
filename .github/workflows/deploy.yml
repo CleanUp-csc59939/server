@@ -10,9 +10,7 @@ env:
   SA_KEY_JSON: ${{ secrets.GCP_SA_KEY_JSON }}
 jobs:
   build:
-
       runs-on: ubuntu-latest
-
       strategy:
         matrix:
           node-version: [10.x, 12.x, 14.x, 15.x]
@@ -29,6 +27,7 @@ jobs:
       - run: npm test
 
   deploy:
+    needs: build
     name: Deploy to Cloud Run
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +42,7 @@ jobs:
 
       # Build and push image to Google Container Registry
       - name: Delete
-        run: gcloud container images delete gcr.io/$GOOGLE_CLOUD_PROJECT/server
+        run: gcloud container images delete gcr.io/$PROJECT_ID/server
 
       - name: Build
         run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
