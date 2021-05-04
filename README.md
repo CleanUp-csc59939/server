@@ -1,7 +1,7 @@
 # CleanUp Server
 
 ## Server setup
-1. In the src folder there's a folder called config, add the following file: 
+1. In the src\config folder, add the following file: 
     1. cloudinary.json
     ```json
     {
