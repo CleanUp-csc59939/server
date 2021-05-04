@@ -45,7 +45,6 @@ jobs:
         run: gcloud container images delete gcr.io/$PROJECT_ID/server
 
       - name: Build
-        if: always()
         run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
 
       - name: Deploy
