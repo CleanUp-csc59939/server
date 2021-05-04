@@ -41,9 +41,6 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       # Build and push image to Google Container Registry
-      - name: Delete
-        run: gcloud container images delete --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
-
       - name: Build
         run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
 
