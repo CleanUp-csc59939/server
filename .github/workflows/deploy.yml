@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+      
+  pull_request:
+    branches:  
+      - main
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   RUN_REGION: us-east1
@@ -42,7 +46,7 @@ jobs:
 
       # Build and push image to Google Container Registry
       - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
+        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server
 
       - name: Deploy
         run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/server:$GITHUB_SHA --platform managed --allow-unauthenticated --region $RUN_REGION
