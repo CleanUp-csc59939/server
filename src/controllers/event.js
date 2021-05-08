@@ -41,9 +41,22 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
+const editEvent = async (req, res, next) => {
+  const { eventID } = req.params;
+  const data = req.body;
+
+  try {
+    const event = await eventServices.editEvent(data, eventID);
+    return res.json(event);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
   getEvent,
   deleteEvent,
+  editEvent,
 };

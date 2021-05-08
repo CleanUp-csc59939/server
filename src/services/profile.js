@@ -1,12 +1,11 @@
 const cloudinary = require('cloudinary').v2;
 
 const db = require('../database');
-const config = require('../config/cloudinary.json');
 
 cloudinary.config({
-  cloud_name: config.CLOUD_NAME,
-  api_key: config.API_KEY,
-  api_secret: config.API_SECRET,
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 const createProfile = async (userID, email) => {

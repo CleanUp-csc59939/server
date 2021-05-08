@@ -1,0 +1,52 @@
+# .github/workflows/deploy.yml
+name: Deploy to Cloud Run
+on:
+  push:
+    branches:
+      - main
+      
+  pull_request:
+    branches:  
+      - main
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  RUN_REGION: us-east1
+  SA_KEY_JSON: ${{ secrets.GCP_SA_KEY_JSON }}
+jobs:
+  build:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [10.x, 12.x, 14.x, 15.x]
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+      steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm test
+
+  deploy:
+    needs: build
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "290.0.1"
+          service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      # Build and push image to Google Container Registry
+      - name: Build
+        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/server:$GITHUB_SHA
+
+      - name: Deploy
+        run: gcloud run deploy $PROJECT_ID --image gcr.io/$PROJECT_ID/server:$GITHUB_SHA --platform managed --allow-unauthenticated --region $RUN_REGION
