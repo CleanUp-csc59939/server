@@ -41,9 +41,62 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
+const editEvent = async (req, res, next) => {
+  const { eventID } = req.params;
+  const data = req.body;
+
+  try {
+    const event = await eventServices.editEvent(data, eventID);
+    return res.json(event);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const registerUser = async (req, res, next) => {
+  const { eventID } = req.params;
+  const { userID } = req.body;
+
+  try {
+    const added = await eventServices.registerUserForEvent(userID, eventID);
+    if (added) {
+      return res.json({
+        success: true,
+      });
+    }
+    return res.json({
+      success: false,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const unregisterUser = async (req, res, next) => {
+  const { eventID } = req.params;
+  const { userID } = req.body;
+
+  try {
+    const removed = await eventServices.unregisterUserFromEvent(userID, eventID);
+    if (removed) {
+      return res.json({
+        success: true,
+      });
+    }
+    return res.json({
+      success: false,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
   getEvent,
   deleteEvent,
+  editEvent,
+  registerUser,
+  unregisterUser,
 };
