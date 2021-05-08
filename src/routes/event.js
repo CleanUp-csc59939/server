@@ -17,4 +17,6 @@ router.delete('/:eventID', [validatorErrors], eventController.deleteEvent);
 
 router.patch('/:eventID', [validatorErrors], eventController.editEvent);
 
+router.post('/:eventID/register', [validatorErrors], eventController.registerUser);
+
 module.exports = router;

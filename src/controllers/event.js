@@ -53,10 +53,30 @@ const editEvent = async (req, res, next) => {
   }
 };
 
+const registerUser = async (req, res, next) => {
+  const { eventID } = req.params;
+  const { userID } = req.body;
+
+  try {
+    const added = await eventServices.registerUserForEvent(userID, eventID);
+    if (added) {
+      return res.json({
+        success: true,
+      });
+    }
+    return res.json({
+      success: false,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
   getEvent,
   deleteEvent,
   editEvent,
+  registerUser,
 };

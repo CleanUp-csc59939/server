@@ -2,8 +2,10 @@ const db = require('../database');
 const profileServices = require('./profile.js');
 
 const addEvent = async (data) => {
+  const profile = await profileServices.getProfile(data.userID);
   const event = await db.Event.create({
     ...data,
+    registered: [profile],
   });
   return event;
 };
@@ -37,8 +39,26 @@ const editEvent = async (data, id) => {
 };
 
 const registerUserForEvent = async (userID, eventID) => {
-  const profile = profileServices.getProfile(userID);
-  console.log(profile, eventID);
+  const profile = await profileServices.getProfile(userID);
+  const event = await getEventByPk(eventID);
+  let registered_users = event.registered;
+
+  for (let i = 0; i < registered_users.length; i++) {
+    if (registered_users[i].userID === parseInt(userID)) return false;
+  }
+
+  registered_users.push(profile);
+
+  await db.Event.update(
+    {
+      amount: ++event.amount,
+      registered: registered_users,
+    },
+
+    { returning: true, where: { id: eventID } },
+  );
+
+  return true;
 };
 
 module.exports = {
