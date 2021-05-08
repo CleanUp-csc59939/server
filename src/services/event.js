@@ -61,6 +61,35 @@ const registerUserForEvent = async (userID, eventID) => {
   return true;
 };
 
+const unregisterUserFromEvent = async (userID, eventID) => {
+  const event = await getEventByPk(eventID);
+  let registered_users = event.registered;
+  let users = [];
+
+  let found = false;
+
+  for (let i = 0; i < registered_users.length; i++) {
+    if (registered_users[i].userID !== parseInt(userID)) {
+      users.push(registered_users[i]);
+    } else {
+      found = true;
+    }
+  }
+
+  if (!found) return false;
+
+  await db.Event.update(
+    {
+      amount: --event.amount,
+      registered: users,
+    },
+
+    { returning: true, where: { id: eventID } },
+  );
+
+  return true;
+};
+
 module.exports = {
   addEvent,
   allEvents,
@@ -68,4 +97,5 @@ module.exports = {
   deleteEvent,
   editEvent,
   registerUserForEvent,
+  unregisterUserFromEvent,
 };

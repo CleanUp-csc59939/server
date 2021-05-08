@@ -72,6 +72,25 @@ const registerUser = async (req, res, next) => {
   }
 };
 
+const unregisterUser = async (req, res, next) => {
+  const { eventID } = req.params;
+  const { userID } = req.body;
+
+  try {
+    const removed = await eventServices.unregisterUserFromEvent(userID, eventID);
+    if (removed) {
+      return res.json({
+        success: true,
+      });
+    }
+    return res.json({
+      success: false,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
@@ -79,4 +98,5 @@ module.exports = {
   deleteEvent,
   editEvent,
   registerUser,
+  unregisterUser,
 };
