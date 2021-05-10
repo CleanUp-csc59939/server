@@ -13,7 +13,7 @@ const register = async (req, res, next) => {
     };
     const user = await userServices.createUser(data);
 
-    await profileServices.createProfile(user.id);
+    await profileServices.createProfile(user.id, email);
     return res.json(user);
   } catch (error) {
     return next(error);

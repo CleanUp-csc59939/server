@@ -17,13 +17,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       img: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
       },
       number: {
         type: DataTypes.INTEGER,
       },
       email: {
         type: DataTypes.STRING,
+      },
+      events: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
+        defaultValue: [],
       },
     },
     {
