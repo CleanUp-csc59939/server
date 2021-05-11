@@ -12,4 +12,3 @@
 
 2. Run the following to install packages: ```npm i```
 3. Then run the server to start the server: ```npm run server``` 
-test
