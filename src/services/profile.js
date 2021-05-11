@@ -1,6 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 
 const db = require('../database');
+require('dotenv').config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
