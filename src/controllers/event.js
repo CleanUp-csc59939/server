@@ -91,6 +91,22 @@ const unregisterUser = async (req, res, next) => {
   }
 };
 
+const uploadImage = async (req, res, next) => {
+  const { eventID } = req.params;
+  const { file } = req;
+
+  try {
+    const image = Buffer.from(file.buffer).toString('base64');
+    const result = await eventServices.addImage(eventID, `data:image/png;base64,${image}`);
+    console.log(result);
+    return res.json({
+      success: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addEvent,
   allEvents,
@@ -99,4 +115,5 @@ module.exports = {
   editEvent,
   registerUser,
   unregisterUser,
+  uploadImage,
 };
