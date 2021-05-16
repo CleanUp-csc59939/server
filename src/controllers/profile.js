@@ -1,11 +1,26 @@
 const profileServices = require('../services/profile.js');
+const eventServices = require('../services/event.js');
 const userServices = require('../services/user.js');
 
 const getProfile = async (req, res, next) => {
   const { id } = req.params;
   try {
     const profile = await profileServices.getProfile(id);
-    return res.json(profile);
+
+    let data = {
+      ...profile.dataValues,
+    };
+
+    let events = [];
+
+    for (let i = 0; i < profile.events.length; i++) {
+      const event = await eventServices.getEventByPk(profile.events[i]);
+      events.push(event);
+    }
+
+    data.events = events;
+
+    return res.json(data);
   } catch (error) {
     return next(error);
   }
