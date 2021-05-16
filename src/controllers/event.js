@@ -1,4 +1,5 @@
 const eventServices = require('../services/event.js');
+const profileServices = require('../services/profile.js');
 
 const addEvent = async (req, res, next) => {
   const data = req.body;
@@ -25,7 +26,19 @@ const getEvent = async (req, res, next) => {
 
   try {
     const event = await eventServices.getEventByPk(eventID);
-    return res.json(event);
+    let users = [];
+    let data = {
+      ...event.dataValues,
+    };
+
+    for (let i = 0; i < event.registered.length; i++) {
+      const user = await profileServices.getProfile(event.registered[i]);
+      users.push(user.dataValues);
+    }
+
+    data.registered = users;
+
+    return res.json(data);
   } catch (error) {
     return next(error);
   }

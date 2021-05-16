@@ -57,10 +57,45 @@ const uploadImage = async (img, userID) => {
     .catch((error) => error);
 };
 
+const addEvent = async (userID, eventID) => {
+  const profile = await getProfile(userID);
+  await db.Profile.update(
+    {
+      events: [...profile.events, eventID],
+    },
+    { where: { userID } },
+  );
+
+  return profile;
+};
+
+const removeEvent = async (userID, eventID) => {
+  const profile = await getProfile(userID);
+
+  let updated_events = [];
+
+  for (let i = 0; i < profile.events.length; i++) {
+    if (profile.events[i] !== eventID) {
+      updated_events.push(profile.events[i]);
+    }
+  }
+
+  await db.Profile.update(
+    {
+      events: updated_events,
+    },
+    { where: { userID } },
+  );
+
+  return profile;
+};
+
 module.exports = {
   createProfile,
   getProfile,
   editProfile,
   deleteProfileImage,
   uploadImage,
+  addEvent,
+  removeEvent,
 };

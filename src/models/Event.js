@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1,
       },
       registered: {
-        type: DataTypes.ARRAY(DataTypes.JSON),
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         defaultValue: [],
       },
     },

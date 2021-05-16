@@ -11,11 +11,12 @@ cloudinary.config({
 });
 
 const addEvent = async (data) => {
-  const profile = await profileServices.getProfile(data.userID);
   const event = await db.Event.create({
     ...data,
-    registered: [profile],
+    registered: [data.userID],
   });
+
+  await profileServices.addEvent(data.userID, event.id);
   return event;
 };
 
@@ -32,6 +33,9 @@ const getEventByPk = async (id) => {
 
 const deleteEvent = async (id) => {
   const event = await db.Event.findByPk(id);
+  for (let i = 0; i < event.registered.length; i++) {
+    await profileServices.removeEvent(event.registered[i], parseInt(id));
+  }
   await event.destroy();
 };
 
@@ -48,7 +52,6 @@ const editEvent = async (data, id) => {
 };
 
 const registerUserForEvent = async (userID, eventID) => {
-  const profile = await profileServices.getProfile(userID);
   const event = await getEventByPk(eventID);
   let registered_users = event.registered;
 
@@ -56,7 +59,9 @@ const registerUserForEvent = async (userID, eventID) => {
     if (registered_users[i].userID === parseInt(userID)) return false;
   }
 
-  registered_users.push(profile);
+  registered_users.push(parseInt(userID));
+
+  await profileServices.addEvent(userID, eventID);
 
   await db.Event.update(
     {
@@ -78,7 +83,7 @@ const unregisterUserFromEvent = async (userID, eventID) => {
   let found = false;
 
   for (let i = 0; i < registered_users.length; i++) {
-    if (registered_users[i].userID !== parseInt(userID)) {
+    if (registered_users[i] !== parseInt(userID)) {
       users.push(registered_users[i]);
     } else {
       found = true;
@@ -86,6 +91,8 @@ const unregisterUserFromEvent = async (userID, eventID) => {
   }
 
   if (!found) return false;
+
+  await profileServices.removeEvent(parseInt(userID), parseInt(eventID));
 
   await db.Event.update(
     {
