@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       img: {
         type: DataTypes.STRING,
+        defaultValue: 'https://res.cloudinary.com/cleanup/image/upload/v1621121500/download_remvsp.png',
       },
       number: {
         type: DataTypes.INTEGER,

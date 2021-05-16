@@ -1,5 +1,14 @@
+const cloudinary = require('cloudinary').v2;
+
 const db = require('../database');
 const profileServices = require('./profile.js');
+require('dotenv').config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 const addEvent = async (data) => {
   const profile = await profileServices.getProfile(data.userID);
@@ -90,6 +99,25 @@ const unregisterUserFromEvent = async (userID, eventID) => {
   return true;
 };
 
+const addImage = async (id, image) => {
+  const event = await getEventByPk(id);
+  const result = cloudinary.uploader
+    .upload(image)
+    .then(async (result) => {
+      await db.Event.update(
+        {
+          img: [...event.img, result.url],
+        },
+        { where: { id } },
+      );
+
+      return true;
+    })
+    .catch(() => false);
+
+  return result;
+};
+
 module.exports = {
   addEvent,
   allEvents,
@@ -98,4 +126,5 @@ module.exports = {
   editEvent,
   registerUserForEvent,
   unregisterUserFromEvent,
+  addImage,
 };
