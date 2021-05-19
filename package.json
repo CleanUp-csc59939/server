@@ -6,7 +6,7 @@
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --coverage"
   },
   "prettier": {
     "printWidth": 120,
@@ -27,6 +27,23 @@
       "npm run test"
     ]
   },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/serviceWorker.js",
+      "!**/index.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "package.json",
+      "package-lock.json",
+      "/src/config/config.js",
+      "/src/config/config.json"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cloudinary": "^1.25.1",
@@ -42,6 +59,7 @@
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.2.0",
